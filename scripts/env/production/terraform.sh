@@ -63,47 +63,51 @@ rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 #   -var "TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}" \
 #   -var "TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
 
-# terraform plan \
-#   -var 'TF_VAR_NAME=terraform-vpc' \
-#   -var 'TF_VAR_ENV=production' \
-#   -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
-#   -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
-#   -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
-#   -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
-#   -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
-#   -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
-#   -var 'TF_VAR_AWS_ACCESS_KEY_ID=ASIA5NAGIDAVIFZMZC7N' \
-#   -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=/j6049XQp3IZ5fg+lueADxzOH7U/DOA+lxDLaer2' \
-#   -var 'TF_VAR_AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEPj//////////wEaCXVzLWVhc3QtMSJHMEUCIAvBuRoKmcuHJRqrCb3lptapXHep6gKXs4BzYoENYj4qAiEA2C53Rsfo398s2uNrquuYxfLbLKvedcnIsmRqJ+OFYT4q9AEIwf//////////ARAAGgw5MjEyODM1OTgzNzgiDLM34cPf81RKYfGj7SrIAfD8YQbVpZFGAtBbzMPKv3BcjyNOuOTmDQKW98P/8H54E+3/BANre65hx5mb98ZDK8mXQterEblb8XqjL9qBmsXLfoJNaGaUJGmTBQY9FYtioEO4llRmecShFnm9tef8LjAq/yXY4CjvC2piS39hMyB9aoL3/VkW/oRbS6rpZ1hcPf4KznYLYZWpCoLkGPyK7zDA3ZC+LVF5E35K3M9Lh5dh1ZBM5agI7KEdQdY1GrOrFSmbVSl+l6tNqO2m+Y2JwS9xTfRMpHCqMMWwia4GOpgBBRsyTFS+vsPInGdV5zrKh/FQa3o2ypeRx2EUrujXXAvR5hKKOVEHF76VktVfX8/J3sq/MKYJandKSH914GjZNFjkRCKKLhhfJhWWnDLUQs5D2yoAOC76g4g17t9SigIbwT8tGS64NikpWIjzMgllRGEByzeiXCMoPi08JZKbSQ8aiPQBjb35rW3X3A9+Vj77zKdkqwODQqA=' \
-#   -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
-#   -var 'TF_VAR_AWS_REGION=us-east-1' \
-#   -var 'TF_VAR_AWS_PROFILE=system-admin' \
-#   -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
-#   -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
-#   -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
-#   -var 'TF_VAR_TERRAFORM=true'
+terraform plan \
+  -var 'TF_VAR_NAME=terraform-vpc' \
+  -var 'TF_VAR_ENV=production' \
+  -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
+  -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
+  -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
+  -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
+  -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
+  -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
+  -var 'TF_VAR_AWS_ACCESS_KEY_ID=ASIA5NAGIDAVIFZMZC7N' \
+  -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=/j6049XQp3IZ5fg+lueADxzOH7U/DOA+lxDLaer2' \
+  -var 'TF_VAR_AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEPj//////////wEaCXVzLWVhc3QtMSJHMEUCIAvBuRoKmcuHJRqrCb3lptapXHep6gKXs4BzYoENYj4qAiEA2C53Rsfo398s2uNrquuYxfLbLKvedcnIsmRqJ+OFYT4q9AEIwf//////////ARAAGgw5MjEyODM1OTgzNzgiDLM34cPf81RKYfGj7SrIAfD8YQbVpZFGAtBbzMPKv3BcjyNOuOTmDQKW98P/8H54E+3/BANre65hx5mb98ZDK8mXQterEblb8XqjL9qBmsXLfoJNaGaUJGmTBQY9FYtioEO4llRmecShFnm9tef8LjAq/yXY4CjvC2piS39hMyB9aoL3/VkW/oRbS6rpZ1hcPf4KznYLYZWpCoLkGPyK7zDA3ZC+LVF5E35K3M9Lh5dh1ZBM5agI7KEdQdY1GrOrFSmbVSl+l6tNqO2m+Y2JwS9xTfRMpHCqMMWwia4GOpgBBRsyTFS+vsPInGdV5zrKh/FQa3o2ypeRx2EUrujXXAvR5hKKOVEHF76VktVfX8/J3sq/MKYJandKSH914GjZNFjkRCKKLhhfJhWWnDLUQs5D2yoAOC76g4g17t9SigIbwT8tGS64NikpWIjzMgllRGEByzeiXCMoPi08JZKbSQ8aiPQBjb35rW3X3A9+Vj77zKdkqwODQqA=' \
+  -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
+  -var 'TF_VAR_AWS_REGION=us-east-1' \
+  -var 'TF_VAR_AWS_PROFILE=system-admin' \
+  -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
+  -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
+  -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
+  -var 'TF_VAR_TERRAFORM=true'
 
-# Apply Terraform changes with auto-approval and passing variables
-# terraform apply \
-#   -auto-approve \
-#   -var 'TF_VAR_NAME=terraform-vpc' \
-#   -var 'TF_VAR_ENV=production' \
-#   -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
-#   -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
-#   -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
-#   -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
-#   -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
-#   -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
-#   -var 'TF_VAR_AWS_ACCESS_KEY_ID=ASIA5NAGIDAVIFZMZC7N' \
-#   -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=/j6049XQp3IZ5fg+lueADxzOH7U/DOA+lxDLaer2' \
-#   -var 'TF_VAR_AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEPj//////////wEaCXVzLWVhc3QtMSJHMEUCIAvBuRoKmcuHJRqrCb3lptapXHep6gKXs4BzYoENYj4qAiEA2C53Rsfo398s2uNrquuYxfLbLKvedcnIsmRqJ+OFYT4q9AEIwf//////////ARAAGgw5MjEyODM1OTgzNzgiDLM34cPf81RKYfGj7SrIAfD8YQbVpZFGAtBbzMPKv3BcjyNOuOTmDQKW98P/8H54E+3/BANre65hx5mb98ZDK8mXQterEblb8XqjL9qBmsXLfoJNaGaUJGmTBQY9FYtioEO4llRmecShFnm9tef8LjAq/yXY4CjvC2piS39hMyB9aoL3/VkW/oRbS6rpZ1hcPf4KznYLYZWpCoLkGPyK7zDA3ZC+LVF5E35K3M9Lh5dh1ZBM5agI7KEdQdY1GrOrFSmbVSl+l6tNqO2m+Y2JwS9xTfRMpHCqMMWwia4GOpgBBRsyTFS+vsPInGdV5zrKh/FQa3o2ypeRx2EUrujXXAvR5hKKOVEHF76VktVfX8/J3sq/MKYJandKSH914GjZNFjkRCKKLhhfJhWWnDLUQs5D2yoAOC76g4g17t9SigIbwT8tGS64NikpWIjzMgllRGEByzeiXCMoPi08JZKbSQ8aiPQBjb35rW3X3A9+Vj77zKdkqwODQqA=' \
-#   -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
-#   -var 'TF_VAR_AWS_REGION=us-east-1' \
-#   -var 'TF_VAR_AWS_PROFILE=system-admin' \
-#   -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
-#   -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
-#   -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
-#   -var 'TF_VAR_TERRAFORM=true'
+#Apply Terraform changes with auto-approval and passing variables
+terraform apply \
+  -auto-approve \
+  -var 'TF_VAR_NAME=terraform-vpc' \
+  -var 'TF_VAR_ENV=production' \
+  -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
+  -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
+  -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
+  -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
+  -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
+  -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
+  -var 'TF_VAR_AWS_ACCESS_KEY_ID=ASIA5NAGIDAVIFZMZC7N' \
+  -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=/j6049XQp3IZ5fg+lueADxzOH7U/DOA+lxDLaer2' \
+  -var 'TF_VAR_AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEPj//////////wEaCXVzLWVhc3QtMSJHMEUCIAvBuRoKmcuHJRqrCb3lptapXHep6gKXs4BzYoENYj4qAiEA2C53Rsfo398s2uNrquuYxfLbLKvedcnIsmRqJ+OFYT4q9AEIwf//////////ARAAGgw5MjEyODM1OTgzNzgiDLM34cPf81RKYfGj7SrIAfD8YQbVpZFGAtBbzMPKv3BcjyNOuOTmDQKW98P/8H54E+3/BANre65hx5mb98ZDK8mXQterEblb8XqjL9qBmsXLfoJNaGaUJGmTBQY9FYtioEO4llRmecShFnm9tef8LjAq/yXY4CjvC2piS39hMyB9aoL3/VkW/oRbS6rpZ1hcPf4KznYLYZWpCoLkGPyK7zDA3ZC+LVF5E35K3M9Lh5dh1ZBM5agI7KEdQdY1GrOrFSmbVSl+l6tNqO2m+Y2JwS9xTfRMpHCqMMWwia4GOpgBBRsyTFS+vsPInGdV5zrKh/FQa3o2ypeRx2EUrujXXAvR5hKKOVEHF76VktVfX8/J3sq/MKYJandKSH914GjZNFjkRCKKLhhfJhWWnDLUQs5D2yoAOC76g4g17t9SigIbwT8tGS64NikpWIjzMgllRGEByzeiXCMoPi08JZKbSQ8aiPQBjb35rW3X3A9+Vj77zKdkqwODQqA=' \
+  -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
+  -var 'TF_VAR_AWS_REGION=us-east-1' \
+  -var 'TF_VAR_AWS_PROFILE=system-admin' \
+  -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
+  -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
+  -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
+  -var 'TF_VAR_TERRAFORM=true'
+
+#Destroy Terraform changes with auto-approval and passing variables
+  terraform destroy \
+  -auto-approve \
 
 # set -e
 

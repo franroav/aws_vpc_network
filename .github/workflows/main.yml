@@ -137,65 +137,64 @@ jobs:
       #   id: apply
       #   run: terraform apply -auto-approve
 
-      # - name: Install Terraform
-      #   run: |
-      #     chmod +x ./scripts/env/production/terraform.sh
-      #     ./scripts/env/production/terraform.sh
-      #     terraform apply -auto-approve
+      - name: Install Terraform
+        run: |
+          chmod +x ./scripts/env/production/terraform.sh
+          ./scripts/env/production/terraform.sh
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      - name: Terraform Init
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.1.0
-          tf_actions_subcommand: "init"
-          tf_actions_working_dir: "."
-          tf_actions_comment: true
-          args: ""
+      # - name: Terraform Init
+      #   uses: hashicorp/terraform-github-actions@master
+      #   with:
+      #     tf_actions_version: 1.1.0
+      #     tf_actions_subcommand: "init"
+      #     tf_actions_working_dir: "."
+      #     tf_actions_comment: true
+      #     args: ""
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan \
-          -var 'TF_VAR_NAME=terraform-vpc' \
-          -var 'TF_VAR_ENV=production' \
-          -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
-          -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
-          -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
-          -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
-          -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
-          -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
-          -var 'TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}' \
-          -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}' \
-          -var 'TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}' \
-          -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
-          -var 'TF_VAR_AWS_REGION=us-east-1' \
-          -var 'TF_VAR_AWS_PROFILE=system-admin' \
-          -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
-          -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
-          -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
-          -var 'TF_VAR_TERRAFORM=true'
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: terraform plan \
+      #     -var 'TF_VAR_NAME=terraform-vpc' \
+      #     -var 'TF_VAR_ENV=production' \
+      #     -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
+      #     -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
+      #     -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
+      #     -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
+      #     -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
+      #     -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
+      #     -var 'TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}' \
+      #     -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}' \
+      #     -var 'TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}' \
+      #     -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
+      #     -var 'TF_VAR_AWS_REGION=us-east-1' \
+      #     -var 'TF_VAR_AWS_PROFILE=system-admin' \
+      #     -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
+      #     -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
+      #     -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
+      #     -var 'TF_VAR_TERRAFORM=true'
 
-      - name: Terraform Apply
-        id: apply
-        run: terraform apply -auto-approve \
-          -var 'TF_VAR_NAME=terraform-vpc' \
-          -var 'TF_VAR_ENV=production' \
-          -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
-          -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
-          -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
-          -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
-          -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
-          -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
-          -var 'TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}' \
-          -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}' \
-          -var 'TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}' \
-          -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
-          -var 'TF_VAR_AWS_REGION=us-east-1' \
-          -var 'TF_VAR_AWS_PROFILE=system-admin' \
-          -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
-          -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
-          -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
-          -var 'TF_VAR_TERRAFORM=true'
+      # - name: Terraform Apply
+      #   id: apply
+      #   run: terraform apply -auto-approve \
+      #     -var 'TF_VAR_NAME=terraform-vpc' \
+      #     -var 'TF_VAR_ENV=production' \
+      #     -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
+      #     -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
+      #     -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
+      #     -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
+      #     -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
+      #     -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
+      #     -var 'TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}' \
+      #     -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}' \
+      #     -var 'TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}' \
+      #     -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
+      #     -var 'TF_VAR_AWS_REGION=us-east-1' \
+      #     -var 'TF_VAR_AWS_PROFILE=system-admin' \
+      #     -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
+      #     -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
+      #     -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
+      #     -var 'TF_VAR_TERRAFORM=true'
 
       # - name: Terraform plan
       #   uses: hashicorp/terraform-github-actions@master
