@@ -94,11 +94,11 @@ jobs:
           export TF_VAR_AWS_SESSION_TOKEN="${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
           # Add other variables as needed
 
-      - name: Install Terraform
-        run: |
-          chmod +x ./scripts/env/production/terraform.sh
-          ./scripts/env/production/terraform.sh
-          terraform apply -auto-approve
+      # - name: Install Terraform
+      #   run: |
+      #     chmod +x ./scripts/env/production/terraform.sh
+      #     ./scripts/env/production/terraform.sh
+      #     terraform apply -auto-approve
 
 # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
