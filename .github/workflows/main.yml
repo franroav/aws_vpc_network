@@ -94,9 +94,8 @@ jobs:
           export TF_VAR_AWS_SESSION_TOKEN="${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
           # Add other variables as needed
 
-      - name: Directory
-        run: |
-          ls -la
+      - name: Print Current Directory
+        run: pwd
 
       # - name: Install Terraform
       #   run: |
