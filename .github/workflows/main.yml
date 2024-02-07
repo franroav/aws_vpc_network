@@ -72,7 +72,29 @@ jobs:
           GIT_AUTHOR_NAME: github-actions
           GIT_AUTHOR_EMAIL: github-actions@github.com
 
-      - name: Deploy infrastructure to AWS
+      - name: Install Terraform
         run: |
           chmod +x ./scripts/env/production/terraform.sh
           ./scripts/env/production/terraform.sh
+
+      - name: Deploy infrastructure to AWS
+        run: |
+           terraform apply -auto-approve \
+              -var "TF_VAR_NAME=${{ secrets.TF_VAR_NAME }}" \
+              -var "TF_VAR_ENV=${{ secrets.TF_VAR_ENV }}" \
+              -var "TF_VAR_VPC_CIDR=${{ secrets.TF_VAR_VPC_CIDR }}" \
+              -var "TF_VAR_PUBLIC_SUBNETS_CIDR=${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}" \
+              -var "TF_VAR_PRIVATE_SUBNETS_CIDR=${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}" \
+              -var "TF_VAR_AVAILABILITY_ZONES=${{ secrets.TF_VAR_AVAILABILITY_ZONES }}" \
+              -var "TF_VAR_EC2_AMI=${{ secrets.TF_VAR_EC2_AMI }}" \
+              -var "TF_VAR_EC2_INSTANCE_TYPE=${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}" \
+              -var "TF_VAR_ENABLE_VPN_GATEWAY=${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}" \
+              -var "TF_VAR_ENABLE_DNS_HOSTNAMES=${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}" \
+              -var "TF_VAR_ENABLE_DNS_SUPPORT=${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}" \
+              -var "TF_VAR_TERRAFORM=${{ secrets.TF_VAR_TERRAFORM }}" \
+              -var "TF_VAR_AWS_ACCOUNT_ID=${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}" \
+              -var "TF_VAR_AWS_REGION=${{ secrets.TF_VAR_AWS_REGION }}" \
+              -var "TF_VAR_AWS_PROFILE=${{ secrets.TF_VAR_AWS_PROFILE }}" \
+              -var "TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}" \
+              -var "TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}" \
+              -var "TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"

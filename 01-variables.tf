@@ -106,15 +106,3 @@ variable "TF_VAR_EC2_INSTANCE_TYPE" {
   type        = string
   sensitive   = true
 }
-
-variable "TF_VAR_KEY_PAIR_NAMES" {
-  description = "Map of key pair names"
-  type        = map(string)
-  # Optionally, you can set default values here if needed.
-  # default     = {
-  #   "Public-Instance-0"  = "my_key_pair",
-  #   "Public-Instance-1"  = "my_key_pair",
-  #   "Private-Instance-0" = "my_key_pair",
-  #   "Private-Instance-1" = "my_key_pair",
-  # }
-}
