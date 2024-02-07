@@ -9,8 +9,15 @@ env:
 
 jobs:
   plan-and-apply:
-    name: Build VPC Network Architecture
+    name: Build VPC Network Arquitecture
     runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint. New
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        node-version: [16.x]
 
     steps:
       - name: Checkout code
@@ -19,15 +26,16 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
+          mask-password: "false"
           aws-access-key-id: ${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}
-          aws-region: ${{ secrets.TF_VAR_AWS_REGION }}
+          aws-region: us-east-1
 
       - name: Assume AWS Role
         id: assume-role
         run: |
-          role_credentials=$(aws sts assume-role --role-arn arn:aws:iam::${{ env.AWS_ACCOUNT_NUMBER }}:role/github-actions-role --role-session-name GitHubActions | jq -r .Credentials)
+          role_credentials=$(aws sts assume-role --role-arn arn:aws:iam::${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}:role/github-actions-role --role-session-name GitHubActions | jq -r .Credentials)
           export AWS_ACCESS_KEY_ID=$(echo $role_credentials | jq -r .AccessKeyId)
           export AWS_SECRET_ACCESS_KEY=$(echo $role_credentials | jq -r .SecretAccessKey)
           export AWS_SESSION_TOKEN=$(echo $role_credentials | jq -r .SessionToken)
@@ -35,6 +43,13 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: "false"
+
+      - name: Debug Login Output
+        run: |
+          echo "ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}"
+          echo "AWS_REGION: ${{ steps.login-ecr.outputs.region }}"
 
       - name: Automatic Tagging of Releases
         id: increment-git-tag
@@ -65,7 +80,18 @@ jobs:
           export TF_VAR_AWS_ACCESS_KEY_ID="${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}"
           export TF_VAR_AWS_SECRET_ACCESS_KEY="${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
           export TF_VAR_AWS_SESSION_TOKEN="${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
+          # Add other variables as needed
 
+      - name: Print Current Directory
+        run: pwd
+
+      # - name: Install Terraform
+      #   run: |
+      #     chmod +x ./scripts/env/production/terraform.sh
+      #     ./scripts/env/production/terraform.sh
+      #     terraform apply -auto-approve
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         uses: hashicorp/terraform-github-actions@v3
         with:
@@ -79,7 +105,27 @@ jobs:
           tf_actions_version: 1.1.0
           tf_actions_subcommand: "plan"
           tf_actions_working_dir: "."
-          args: "-var-file=/home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
+          tf_actions_comment: true
+          args: "/home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
+        env:
+          TF_VAR_NAME: "${{ secrets.TF_VAR_NAME }}"
+          TF_VAR_ENV: "${{ secrets.TF_VAR_ENV }}"
+          TF_VAR_VPC_CIDR: "${{ secrets.TF_VAR_VPC_CIDR }}"
+          TF_VAR_PUBLIC_SUBNETS_CIDR: "${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}"
+          TF_VAR_PRIVATE_SUBNETS_CIDR: "${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}"
+          TF_VAR_AVAILABILITY_ZONES: "${{ secrets.TF_VAR_AVAILABILITY_ZONES }}"
+          TF_VAR_EC2_AMI: "${{ secrets.TF_VAR_EC2_AMI }}"
+          TF_VAR_EC2_INSTANCE_TYPE: "${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}"
+          TF_VAR_ENABLE_VPN_GATEWAY: "${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}"
+          TF_VAR_ENABLE_DNS_HOSTNAMES: "${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}"
+          TF_VAR_ENABLE_DNS_SUPPORT: "${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}"
+          TF_VAR_TERRAFORM: "${{ secrets.TF_VAR_TERRAFORM }}"
+          TF_VAR_AWS_ACCOUNT_ID: "${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}"
+          TF_VAR_AWS_REGION: "${{ secrets.TF_VAR_AWS_REGION }}"
+          TF_VAR_AWS_PROFILE: "${{ secrets.TF_VAR_AWS_PROFILE }}"
+          TF_VAR_AWS_ACCESS_KEY_ID: "${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}"
+          TF_VAR_AWS_SECRET_ACCESS_KEY: "${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
+          TF_VAR_AWS_SESSION_TOKEN: "${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
 
       - name: Terraform apply
         if: ${{ github.event.inputs.terraform_action == 'apply' }}
@@ -88,7 +134,29 @@ jobs:
           tf_actions_version: 1.1.0
           tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
           tf_actions_working_dir: "."
-          args: "-auto-approve -var-file=/home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
+          tf_actions_comment: true
+          args: "-auto-approve /home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
+          # args: "-auto-approve"
+          # args: '-chdir=. -auto-approve -var="TF_VAR_NAME=${{ secrets.TF_VAR_NAME }}" -var="TF_VAR_ENV=${{ secrets.TF_VAR_ENV }}" -var="TF_VAR_VPC_CIDR=${{ secrets.TF_VAR_VPC_CIDR }}" -var="TF_VAR_PUBLIC_SUBNETS_CIDR=${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}" -var="TF_VAR_PRIVATE_SUBNETS_CIDR=${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}" -var="TF_VAR_AVAILABILITY_ZONES=${{ secrets.TF_VAR_AVAILABILITY_ZONES }}" -var="TF_VAR_EC2_AMI=${{ secrets.TF_VAR_EC2_AMI }}" -var="TF_VAR_EC2_INSTANCE_TYPE=${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}" -var="TF_VAR_ENABLE_VPN_GATEWAY=${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}" -var="TF_VAR_ENABLE_DNS_HOSTNAMES=${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}" -var="TF_VAR_ENABLE_DNS_SUPPORT=${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}" -var="TF_VAR_TERRAFORM=${{ secrets.TF_VAR_TERRAFORM }}" -var="TF_VAR_AWS_ACCOUNT_ID=${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}" -var="TF_VAR_AWS_REGION=${{ secrets.TF_VAR_AWS_REGION }}" -var="TF_VAR_AWS_PROFILE=${{ secrets.TF_VAR_AWS_PROFILE }}" -var="TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}" -var="TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}" -var="TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"'
+        env:
+          TF_VAR_NAME: "${{ secrets.TF_VAR_NAME }}"
+          TF_VAR_ENV: "${{ secrets.TF_VAR_ENV }}"
+          TF_VAR_VPC_CIDR: "${{ secrets.TF_VAR_VPC_CIDR }}"
+          TF_VAR_PUBLIC_SUBNETS_CIDR: "${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}"
+          TF_VAR_PRIVATE_SUBNETS_CIDR: "${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}"
+          TF_VAR_AVAILABILITY_ZONES: "${{ secrets.TF_VAR_AVAILABILITY_ZONES }}"
+          TF_VAR_EC2_AMI: "${{ secrets.TF_VAR_EC2_AMI }}"
+          TF_VAR_EC2_INSTANCE_TYPE: "${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}"
+          TF_VAR_ENABLE_VPN_GATEWAY: "${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}"
+          TF_VAR_ENABLE_DNS_HOSTNAMES: "${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}"
+          TF_VAR_ENABLE_DNS_SUPPORT: "${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}"
+          TF_VAR_TERRAFORM: "${{ secrets.TF_VAR_TERRAFORM }}"
+          TF_VAR_AWS_ACCOUNT_ID: "${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}"
+          TF_VAR_AWS_REGION: "${{ secrets.TF_VAR_AWS_REGION }}"
+          TF_VAR_AWS_PROFILE: "${{ secrets.TF_VAR_AWS_PROFILE }}"
+          TF_VAR_AWS_ACCESS_KEY_ID: "${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}"
+          TF_VAR_AWS_SECRET_ACCESS_KEY: "${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
+          TF_VAR_AWS_SESSION_TOKEN: "${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
 
       - name: Terraform destroy
         if: ${{ github.event.inputs.terraform_action == 'destroy' }}
@@ -97,6 +165,7 @@ jobs:
           tf_actions_version: 1.1.0
           tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
           tf_actions_working_dir: "."
+          tf_actions_comment: true
           args: "-auto-approve"
 
           # - name: Deploy infrastructure to AWS
