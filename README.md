@@ -62,16 +62,16 @@ Follow these steps to initialize and deploy the infrastructure:
 - **TF_VAR_AWS_ACCOUNT_ID**=0000000000000
 - **TF_VAR_AWS_REGION=**"xxxxxxxxxx"
 - **TF_VAR_AWS_PROFILE=**"xxxxxxxxxxxxxxxx"
-- **TF_VAR_env**                  = "xxxxxxxxxxx"
-- **TF_VAR_vpc_cidr**             = "xx.x.x.x/xx"
-- **TF_VAR_public_subnets_cidr**  = ["xx.x.x.x/xx", "xx.x.x.x/xx"]
-- **TF_VAR_private_subnets_cidr** = ["xx.x.x.x/xx", "xx.x.x.x/xx"]
-- **TF_VAR_availability_zones**   = ["xx-xxxx-xx", "xx-xxxx-xx"]
-- **TF_VAR_name** = "terraform-vpc"
-- **TF_VAR_enable_vpn_gateway**   = true
-- **TF_VAR_enable_dns_hostnames** = true
-- **TF_VAR_enable_dns_support**   = true
-- **TF_VAR_terraform = true**
+- **TF_VAR_ENV**                  = "xxxxxxxxxxx"
+- **TF_VAR_VPC_CIDR**             = "xx.x.x.x/xx"
+- **TF_VAR_PUBLIC_SUBNETS_CIDR**  = ["xx.x.x.x/xx", "xx.x.x.x/xx"]
+- **TF_VAR_PRIVATE_SUBNETS_CIDR** = ["xx.x.x.x/xx", "xx.x.x.x/xx"]
+- **TF_VAR_AVAILABILITY_ZONES**   = ["xx-xxxx-xx", "xx-xxxx-xx"]
+- **TF_VAR_NAME** = "terraform-vpc"
+- **TF_VAR_ENABLE_VPN_GATEWAY**   = true
+- **TF_VAR_ENABLE_DNS_HOSTNAMES** = true
+- **TF_VAR_ENABLE_DNS_SUPPORT**   = true
+- **TF_VAR_TERRAFORM = true**
 
 
 ## Resources

@@ -1,4 +1,4 @@
-variable "TF_VAR_terraform" {
+variable "TF_VAR_TERRAFORM" {
   description = "terraform"
   type        = bool
   sensitive   = true
@@ -44,70 +44,70 @@ variable "TF_VAR_AWS_ACCOUNT_ID" {
 }
 
 
-variable "TF_VAR_vpc_cidr" {
+variable "TF_VAR_VPC_CIDR" {
   description = "vpc cidr"
   type        = string
   #   sensitive   = true
 }
 
-variable "TF_VAR_public_subnets_cidr" {
+variable "TF_VAR_PUBLIC_SUBNETS_CIDR" {
   description = "vpc cidr"
   type        = list(string)
   #   sensitive   = true
 }
 
-variable "TF_VAR_private_subnets_cidr" {
+variable "TF_VAR_PRIVATE_SUBNETS_CIDR" {
   description = "vpc cidr"
   type        = list(string)
   #   sensitive   = true
 }
 
-variable "TF_VAR_availability_zones" {
+variable "TF_VAR_AVAILABILITY_ZONES" {
   description = "List of availability zones"
   type        = list(string)
 }
 
 
-variable "TF_VAR_enable_vpn_gateway" {
+variable "TF_VAR_ENABLE_VPN_GATEWAY" {
   description = "enable vpn gateway"
   type        = bool
 }
 
-variable "TF_VAR_enable_dns_hostnames" {
+variable "TF_VAR_ENABLE_DNS_HOSTNAMES" {
   description = "enable dns hostnames"
   type        = bool
 }
 
-variable "TF_VAR_enable_dns_support" {
+variable "TF_VAR_ENABLE_DNS_SUPPORT" {
   description = "enable dns support"
   type        = bool
 }
 
-variable "TF_VAR_env" {
+variable "TF_VAR_ENV" {
   description = "enviroment"
   type        = string
   sensitive   = true
 }
 
-variable "TF_VAR_name" {
+variable "TF_VAR_NAME" {
   description = "vpc name"
   type        = string
   sensitive   = true
 }
 
-variable "TF_VAR_ec2_ami" {
+variable "TF_VAR_EC2_AMI" {
   description = "EC2 AMI"
   type        = string
   sensitive   = true
 }
 
-variable "TF_VAR_ec2_instance_type" {
+variable "TF_VAR_EC2_INSTANCE_TYPE" {
   description = "EC2 Instance Type"
   type        = string
   sensitive   = true
 }
 
-variable "TF_VAR_key_pair_names" {
+variable "TF_VAR_KEY_PAIR_NAMES" {
   description = "Map of key pair names"
   type        = map(string)
   # Optionally, you can set default values here if needed.

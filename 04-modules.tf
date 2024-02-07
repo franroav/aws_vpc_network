@@ -6,27 +6,27 @@
 
 module "networking" {
   source                      = "./modules/networking"
-  TF_VAR_name                 = var.TF_VAR_name
+  TF_VAR_NAME                 = var.TF_VAR_NAME
   TF_VAR_AWS_REGION           = var.TF_VAR_AWS_REGION
-  TF_VAR_enable_dns_support   = var.TF_VAR_enable_dns_support
-  TF_VAR_enable_vpn_gateway   = var.TF_VAR_enable_vpn_gateway
-  TF_VAR_vpc_cidr                 = var.TF_VAR_vpc_cidr
-  TF_VAR_public_subnets_cidr  = var.TF_VAR_public_subnets_cidr
-  TF_VAR_env                  = var.TF_VAR_env
-  TF_VAR_availability_zones   = var.TF_VAR_availability_zones
-  TF_VAR_private_subnets_cidr = var.TF_VAR_private_subnets_cidr
-  TF_VAR_terraform            = var.TF_VAR_terraform
-  TF_VAR_enable_dns_hostnames = var.TF_VAR_enable_dns_hostnames
-  TF_VAR_key_pair_names       = var.TF_VAR_key_pair_names
+  TF_VAR_ENABLE_DNS_SUPPORT   = var.TF_VAR_ENABLE_DNS_SUPPORT
+  TF_VAR_ENABLE_VPN_GATEWAY   = var.TF_VAR_ENABLE_VPN_GATEWAY
+  TF_VAR_VPC_CIDR                 = var.TF_VAR_VPC_CIDR
+  TF_VAR_PUBLIC_SUBNETS_CIDR  = var.TF_VAR_PUBLIC_SUBNETS_CIDR
+  TF_VAR_ENV                  = var.TF_VAR_ENV
+  TF_VAR_AVAILABILITY_ZONES   = var.TF_VAR_AVAILABILITY_ZONES
+  TF_VAR_PRIVATE_SUBNETS_CIDR = var.TF_VAR_PRIVATE_SUBNETS_CIDR
+  TF_VAR_TERRAFORM            = var.TF_VAR_TERRAFORM
+  TF_VAR_ENABLE_DNS_HOSTNAMES = var.TF_VAR_ENABLE_DNS_HOSTNAMES
+  TF_VAR_KEY_PAIR_NAMES       = var.TF_VAR_KEY_PAIR_NAMES
   TF_VAR_AWS_ACCOUNT_ID       = var.TF_VAR_AWS_ACCOUNT_ID
-  TF_VAR_ec2_ami = var.TF_VAR_ec2_ami
-  TF_VAR_ec2_instance_type = var.TF_VAR_ec2_instance_type
+  TF_VAR_EC2_AMI = var.TF_VAR_EC2_AMI
+  TF_VAR_EC2_INSTANCE_TYPE = var.TF_VAR_EC2_INSTANCE_TYPE
   #   region               = var.TF_VAR_region
-  #   environment          = "${var.TF_VAR_env}"
-  #   vpc_cidr             = "${var.TF_VAR_vpc_cidr}"
-  #   public_subnets_cidr  = "${var.TF_VAR_public_subnets_cidr}"
-  #   private_subnets_cidr = "${var.TF_VAR_private_subnets_cidr}"
-  #   availability_zones   = "${local.TF_VAR_availability_zones}"
+  #   environment          = "${var.TF_VAR_ENV}"
+  #   vpc_cidr             = "${var.TF_VAR_VPC_CIDR}"
+  #   public_subnets_cidr  = "${var.TF_VAR_PUBLIC_SUBNETS_CIDR}"
+  #   private_subnets_cidr = "${var.TF_VAR_PRIVATE_SUBNETS_CIDR}"
+  #   availability_zones   = "${local.TF_VAR_AVAILABILITY_ZONES}"
 }
 
 
