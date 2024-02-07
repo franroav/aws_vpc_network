@@ -15,11 +15,11 @@ sudo mv terraform /usr/local/bin/
 rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 
-# Initialize Terraform
-terraform init
+# # Initialize Terraform
+# terraform init
 
-# Validate Terraform configuration
-terraform validate
+# # Validate Terraform configuration
+# terraform validate
 
 # Plan Terraform changes
 # terraform plan \
