@@ -131,7 +131,13 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file=./.github/workflows/secrets.tfvars
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 1.1.0
+          tf_actions_subcommand: 'plan'
+          tf_actions_working_dir: './.github/workflows/'
+          tf_actions_comment: true
+          args: 'terraform plan -var-file=secrets.tfvars'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}
