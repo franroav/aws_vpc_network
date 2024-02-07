@@ -1,0 +1,107 @@
+pipeline {
+    agent any
+    
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_SESSION_TOKEN = credentials('AWS_SESSION_TOKEN')
+        AWS_REGION = 'us-east-1'
+        AWS_ACCOUNT_NUMBER = '<your_aws_account_number>'
+    }
+    
+    stages {
+        stage('Build and Push Docker Images to ECR') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                                     string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY'),
+                                     string(credentialsId: 'AWS_SESSION_TOKEN', variable: 'AWS_SESSION_TOKEN')]) {
+                        
+                        // Checkout code
+                        checkout scm
+                        
+                        // Debug AWS Credentials
+                        sh """
+                        echo "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
+                        echo "AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}"
+                        echo "AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}"
+                        echo "AWS_REGION: ${AWS_REGION}"
+                        """
+                        
+                        // Configure AWS credentials
+                        withAWS(region: AWS_REGION, credentials: 'aws-creds') {
+                            
+                            // Assume AWS Role
+                            def role_credentials = sh(script: "aws sts assume-role --role-arn arn:aws:iam::${AWS_ACCOUNT_NUMBER}:role/github-actions-role --role-session-name GitHubActions", returnStdout: true).trim()
+                            env.AWS_ACCESS_KEY_ID = sh(script: "echo ${role_credentials} | jq -r .AccessKeyId", returnStdout: true).trim()
+                            env.AWS_SECRET_ACCESS_KEY = sh(script: "echo ${role_credentials} | jq -r .SecretAccessKey", returnStdout: true).trim()
+                            env.AWS_SESSION_TOKEN = sh(script: "echo ${role_credentials} | jq -r .SessionToken", returnStdout: true).trim()
+                            
+                            // Login to Amazon ECR
+                            def loginOutput = sh(script: "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_NUMBER}.dkr.ecr.${AWS_REGION}.amazonaws.com", returnStdout: true).trim()
+                            echo "ECR_REGISTRY: ${loginOutput}"
+                            echo "AWS_REGION: ${AWS_REGION}"
+                            
+                            // Automatic Tagging of Releases
+                            sh "chmod +x ./scripts/env/production/version.sh && ./scripts/env/production/version.sh -v Hotfix"
+                            
+                            // Build and Push Frontend Docker Image
+                            sh """
+                            docker build -t frontend-repo:latest${env.BUILD_NUMBER} ./containers/frontend
+                            docker tag frontend-repo:latest${env.BUILD_NUMBER} ${loginOutput}/frontend-repo:latest${env.BUILD_NUMBER}
+                            docker push ${loginOutput}/frontend-repo:latest${env.BUILD_NUMBER}
+                            """
+                            
+                            // Build and Push API Docker Image
+                            sh """
+                            docker build -t api-repo:latest${env.BUILD_NUMBER} ./containers/api
+                            docker tag api-repo:latest${env.BUILD_NUMBER} ${loginOutput}/api-repo:latest${env.BUILD_NUMBER}
+                            docker push ${loginOutput}/api-repo:latest${env.BUILD_NUMBER}
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy to AWS') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                                     string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY'),
+                                     string(credentialsId: 'AWS_SESSION_TOKEN', variable: 'AWS_SESSION_TOKEN')]) {
+                        
+                        // Checkout code
+                        checkout scm
+                        
+                        // Configure AWS credentials
+                        withAWS(region: AWS_REGION, credentials: 'aws-creds') {
+                            
+                            // Assume AWS Role
+                            def role_credentials = sh(script: "aws sts assume-role --role-arn arn:aws:iam::${AWS_ACCOUNT_NUMBER}:role/github-actions-role --role-session-name GitHubActions", returnStdout: true).trim()
+                            env.AWS_ACCESS_KEY_ID = sh(script: "echo ${role_credentials} | jq -r .AccessKeyId", returnStdout: true).trim()
+                            env.AWS_SECRET_ACCESS_KEY = sh(script: "echo ${role_credentials} | jq -r .SecretAccessKey", returnStdout: true).trim()
+                            env.AWS_SESSION_TOKEN = sh(script: "echo ${role_credentials} | jq -r .SessionToken", returnStdout: true).trim()
+                            
+                            // Login to Amazon ECR
+                            def loginOutput = sh(script: "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_NUMBER}.dkr.ecr.${AWS_REGION}.amazonaws.com", returnStdout: true).trim()
+                            echo "ECR_REGISTRY: ${loginOutput}"
+                            echo "AWS_REGION: ${AWS_REGION}"
+                            
+                            // Automatic Tagging of Releases
+                            sh "chmod +x ./scripts/env/production/version.sh && ./scripts/env/production/version.sh -v Hotfix"
+                            
+                            // Deploy API image to Amazon ECS
+                            sh "docker pull ${loginOutput}/api-repo:latest${env.BUILD_NUMBER}"
+                            // Additional steps for deploying API image to ECS go here
+                            
+                            // Deploy Frontend image to Amazon ECS
+                            sh "docker pull ${loginOutput}/frontend-repo:latest${env.BUILD_NUMBER}"
+                            // Additional steps for deploying Frontend image to ECS go here
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
