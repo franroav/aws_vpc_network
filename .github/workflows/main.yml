@@ -125,68 +125,17 @@ jobs:
       #   id: fmt
       #   run: terraform fmt -check
 
-      - name: Terraform Init
-        id: init
-        run: terraform init
+      # - name: Terraform Init
+      #   id: init
+      #   run: terraform init
 
-      - name: Terraform Plan
-        id: plan
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.1.0
-          tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: '.'
-          tf_actions_comment: true
-          args: '-var-file=/.github/workflows/secrets.tfvars'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}
-          AWS_REGION: ${{ secrets.TF_VAR_AWS_REGION }}
-          TF_VAR_NAME: "${{ secrets.TF_VAR_NAME }}"
-          TF_VAR_ENV: "${{ secrets.TF_VAR_ENV }}"
-          TF_VAR_VPC_CIDR: "${{ secrets.TF_VAR_VPC_CIDR }}"
-          TF_VAR_PUBLIC_SUBNETS_CIDR: "${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}"
-          TF_VAR_PRIVATE_SUBNETS_CIDR: "${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}"
-          TF_VAR_AVAILABILITY_ZONES: "${{ secrets.TF_VAR_AVAILABILITY_ZONES }}"
-          TF_VAR_EC2_AMI: "${{ secrets.TF_VAR_EC2_AMI }}"
-          TF_VAR_EC2_INSTANCE_TYPE: "${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}"
-          TF_VAR_ENABLE_VPN_GATEWAY: "${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}"
-          TF_VAR_ENABLE_DNS_HOSTNAMES: "${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}"
-          TF_VAR_ENABLE_DNS_SUPPORT: "${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}"
-          TF_VAR_TERRAFORM: "${{ secrets.TF_VAR_TERRAFORM }}"
-          TF_VAR_AWS_ACCOUNT_ID: "${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}"
-          TF_VAR_AWS_REGION: "${{ secrets.TF_VAR_AWS_REGION }}"
-          TF_VAR_AWS_PROFILE: "${{ secrets.TF_VAR_AWS_PROFILE }}"
-          TF_VAR_AWS_ACCESS_KEY_ID: "${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}"
-          TF_VAR_AWS_SECRET_ACCESS_KEY: "${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
-          TF_VAR_AWS_SESSION_TOKEN: "${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: terraform plan
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}
-          AWS_REGION: ${{ secrets.TF_VAR_AWS_REGION }}
-          TF_VAR_NAME: "${{ secrets.TF_VAR_NAME }}"
-          TF_VAR_ENV: "${{ secrets.TF_VAR_ENV }}"
-          TF_VAR_VPC_CIDR: "${{ secrets.TF_VAR_VPC_CIDR }}"
-          TF_VAR_PUBLIC_SUBNETS_CIDR: "${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}"
-          TF_VAR_PRIVATE_SUBNETS_CIDR: "${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}"
-          TF_VAR_AVAILABILITY_ZONES: "${{ secrets.TF_VAR_AVAILABILITY_ZONES }}"
-          TF_VAR_EC2_AMI: "${{ secrets.TF_VAR_EC2_AMI }}"
-          TF_VAR_EC2_INSTANCE_TYPE: "${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}"
-          TF_VAR_ENABLE_VPN_GATEWAY: "${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}"
-          TF_VAR_ENABLE_DNS_HOSTNAMES: "${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}"
-          TF_VAR_ENABLE_DNS_SUPPORT: "${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}"
-          TF_VAR_TERRAFORM: "${{ secrets.TF_VAR_TERRAFORM }}"
-          TF_VAR_AWS_ACCOUNT_ID: "${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}"
-          TF_VAR_AWS_REGION: "${{ secrets.TF_VAR_AWS_REGION }}"
-          TF_VAR_AWS_PROFILE: "${{ secrets.TF_VAR_AWS_PROFILE }}"
-          TF_VAR_AWS_ACCESS_KEY_ID: "${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}"
-          TF_VAR_AWS_SECRET_ACCESS_KEY: "${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
-          TF_VAR_AWS_SESSION_TOKEN: "${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
+      # - name: Terraform Apply
+      #   id: apply
+      #   run: terraform apply -auto-approve
 
       # - name: Install Terraform
       #   run: |
@@ -195,14 +144,58 @@ jobs:
       #     terraform apply -auto-approve
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      # - name: Terraform Init
-      #   uses: hashicorp/terraform-github-actions@master
-      #   with:
-      #     tf_actions_version: 1.1.0
-      #     tf_actions_subcommand: "init"
-      #     tf_actions_working_dir: "."
-      #     tf_actions_comment: true
-      #     args: ""
+      - name: Terraform Init
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 1.1.0
+          tf_actions_subcommand: "init"
+          tf_actions_working_dir: "."
+          tf_actions_comment: true
+          args: ""
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan \
+          -var 'TF_VAR_NAME=terraform-vpc' \
+          -var 'TF_VAR_ENV=production' \
+          -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
+          -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
+          -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
+          -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
+          -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
+          -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
+          -var 'TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}' \
+          -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}' \
+          -var 'TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}' \
+          -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
+          -var 'TF_VAR_AWS_REGION=us-east-1' \
+          -var 'TF_VAR_AWS_PROFILE=system-admin' \
+          -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
+          -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
+          -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
+          -var 'TF_VAR_TERRAFORM=true'
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve \
+          -var 'TF_VAR_NAME=terraform-vpc' \
+          -var 'TF_VAR_ENV=production' \
+          -var 'TF_VAR_VPC_CIDR=10.0.0.0/16' \
+          -var 'TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]' \
+          -var 'TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]' \
+          -var 'TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]' \
+          -var 'TF_VAR_EC2_AMI=ami-011899242bb902164' \
+          -var 'TF_VAR_EC2_INSTANCE_TYPE=t2.nano' \
+          -var 'TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}' \
+          -var 'TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}' \
+          -var 'TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}' \
+          -var 'TF_VAR_AWS_ACCOUNT_ID=921283598378' \
+          -var 'TF_VAR_AWS_REGION=us-east-1' \
+          -var 'TF_VAR_AWS_PROFILE=system-admin' \
+          -var 'TF_VAR_ENABLE_VPN_GATEWAY=true' \
+          -var 'TF_VAR_ENABLE_DNS_HOSTNAMES=true' \
+          -var 'TF_VAR_ENABLE_DNS_SUPPORT=true' \
+          -var 'TF_VAR_TERRAFORM=true'
 
       # - name: Terraform plan
       #   uses: hashicorp/terraform-github-actions@master
@@ -211,7 +204,8 @@ jobs:
       #     tf_actions_subcommand: "plan"
       #     tf_actions_working_dir: "."
       #     tf_actions_comment: true
-      #     args: "/home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
+      #     args: ""
+      #     # args: "/home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
 
       #   env:
       #     TF_VAR_NAME: "${{ secrets.TF_VAR_NAME }}"
@@ -241,8 +235,8 @@ jobs:
       #     tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
       #     tf_actions_working_dir: "."
       #     tf_actions_comment: true
-      #     args: "-auto-approve /home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
-      #     # args: "-auto-approve"
+      #     args: "-auto-approve"
+      #     # args: "-auto-approve /home/runner/work/aws_vpc_network/aws_vpc_network/.github/workflows/secrets.tfvars"
       #     # args: '-chdir=. -auto-approve -var="TF_VAR_NAME=${{ secrets.TF_VAR_NAME }}" -var="TF_VAR_ENV=${{ secrets.TF_VAR_ENV }}" -var="TF_VAR_VPC_CIDR=${{ secrets.TF_VAR_VPC_CIDR }}" -var="TF_VAR_PUBLIC_SUBNETS_CIDR=${{ secrets.TF_VAR_PUBLIC_SUBNETS_CIDR }}" -var="TF_VAR_PRIVATE_SUBNETS_CIDR=${{ secrets.TF_VAR_PRIVATE_SUBNETS_CIDR }}" -var="TF_VAR_AVAILABILITY_ZONES=${{ secrets.TF_VAR_AVAILABILITY_ZONES }}" -var="TF_VAR_EC2_AMI=${{ secrets.TF_VAR_EC2_AMI }}" -var="TF_VAR_EC2_INSTANCE_TYPE=${{ secrets.TF_VAR_EC2_INSTANCE_TYPE }}" -var="TF_VAR_ENABLE_VPN_GATEWAY=${{ secrets.TF_VAR_ENABLE_VPN_GATEWAY }}" -var="TF_VAR_ENABLE_DNS_HOSTNAMES=${{ secrets.TF_VAR_ENABLE_DNS_HOSTNAMES }}" -var="TF_VAR_ENABLE_DNS_SUPPORT=${{ secrets.TF_VAR_ENABLE_DNS_SUPPORT }}" -var="TF_VAR_TERRAFORM=${{ secrets.TF_VAR_TERRAFORM }}" -var="TF_VAR_AWS_ACCOUNT_ID=${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}" -var="TF_VAR_AWS_REGION=${{ secrets.TF_VAR_AWS_REGION }}" -var="TF_VAR_AWS_PROFILE=${{ secrets.TF_VAR_AWS_PROFILE }}" -var="TF_VAR_AWS_ACCESS_KEY_ID=${{ secrets.TF_VAR_AWS_ACCESS_KEY_ID }}" -var="TF_VAR_AWS_SECRET_ACCESS_KEY=${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}" -var="TF_VAR_AWS_SESSION_TOKEN=${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"'
       #   env:
       #     TF_VAR_NAME: "${{ secrets.TF_VAR_NAME }}"
@@ -264,15 +258,15 @@ jobs:
       #     TF_VAR_AWS_SECRET_ACCESS_KEY: "${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
       #     TF_VAR_AWS_SESSION_TOKEN: "${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
 
-      # - name: Terraform destroy
-      #   if: ${{ github.event.inputs.terraform_action == 'destroy' }}
-      #   uses: hashicorp/terraform-github-actions@master
-      #   with:
-      #     tf_actions_version: 1.1.0
-      #     tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
-      #     tf_actions_working_dir: "."
-      #     tf_actions_comment: true
-      #     args: "-auto-approve"
+      - name: Terraform destroy
+        if: ${{ github.event.inputs.terraform_action == 'destroy' }}
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 1.1.0
+          tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
+          tf_actions_working_dir: "."
+          tf_actions_comment: true
+          args: "-auto-approve"
 
       # - name: Deploy infrastructure to AWS
       # run: |
