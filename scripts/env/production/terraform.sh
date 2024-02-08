@@ -2,12 +2,21 @@
 
 set -e
 
-# Get the directory of the script
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Get the directory where the script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Navigate to the root directory
-ROOT_DIR="$(dirname "$DIR")"
-source "$ROOT_DIR/.env"
+# Navigate to the root directory of the project
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Check if .env file exists in the root directory
+if [ -f "$ROOT_DIR/.env" ]; then
+    # If the .env file exists, load the variables
+    source "$ROOT_DIR/.env"
+else
+    # If .env file doesn't exist, print an error message and exit
+    echo "Error: .env file not found in the root directory."
+    exit 1
+fi
 
 # Install necessary dependencies
 sudo apt-get update
