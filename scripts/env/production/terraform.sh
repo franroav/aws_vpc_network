@@ -67,6 +67,7 @@ terraform apply \
   -auto-approve \
 
 
+
 # Plan Terraform changes
 # terraform plan \
 #   -var "TF_VAR_NAME=$TF_VAR_NAME" \
