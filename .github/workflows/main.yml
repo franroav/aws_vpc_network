@@ -121,7 +121,7 @@ jobs:
           terraform_version: 1.0.1
           terraform_wrapper: false
 
-      - name: Install Terraform
+      - name: Deploy cloud infrastructure
         run: |
           chmod +x ./scripts/stage/production/terraform.sh
           ./scripts/stage/production/terraform.sh
