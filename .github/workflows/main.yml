@@ -84,8 +84,8 @@ jobs:
       - name: Automatic Tagging of Releases
         id: increment-git-tag
         run: |
-          chmod +x ./scripts/env/production/version.sh
-          ./scripts/env/production/version.sh -v Hotfix
+          chmod +x ./scripts/stage/production/version.sh
+          ./scripts/stage/production/version.sh -v Hotfix
         env:
           GIT_AUTHOR_NAME: github-actions
           GIT_AUTHOR_EMAIL: github-actions@github.com
