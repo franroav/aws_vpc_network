@@ -3,7 +3,7 @@
 set -e
 
 # Load variables from .env file
-source .env
+source ../.env
 
 # Install necessary dependencies
 sudo apt-get update
@@ -16,7 +16,6 @@ curl -LO $TERRAFORM_URL
 unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 sudo mv terraform /usr/local/bin/
 rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-
 
 # Initialize Terraform
 terraform init
