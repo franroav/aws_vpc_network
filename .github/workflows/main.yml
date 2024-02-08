@@ -139,10 +139,6 @@ jobs:
 
       - name: Install Terraform
         run: |
-          set -e
-
-          source ./.env
-
           chmod +x ./scripts/env/production/terraform.sh
           ./scripts/env/production/terraform.sh
 
