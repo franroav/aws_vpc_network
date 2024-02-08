@@ -139,8 +139,8 @@ jobs:
 
       - name: Install Terraform
         run: |
-          chmod +x ./scripts/env/production/terraform.sh
-          ./scripts/env/production/terraform.sh
+          chmod +x ./scripts/stage/production/terraform.sh
+          ./scripts/stage/production/terraform.sh
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       # - name: Terraform Init

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-source ../../../../.env
+source ../../.env
 
 # Install necessary dependencies
 sudo apt-get update
