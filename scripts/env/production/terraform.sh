@@ -2,8 +2,11 @@
 
 set -e
 
+# Get the directory of the script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Load variables from .env file
-source ../.env
+source "$DIR/../../.env"
 
 # Install necessary dependencies
 sudo apt-get update
