@@ -5,8 +5,9 @@ set -e
 # Get the directory of the script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Load variables from .env file
-source "$DIR/../../.env"
+# Navigate to the root directory
+ROOT_DIR="$(dirname "$DIR")"
+source "$ROOT_DIR/.env"
 
 # Install necessary dependencies
 sudo apt-get update
