@@ -141,7 +141,7 @@ jobs:
         run: |
           set -e
 
-          source .env
+          source ./.env
 
           chmod +x ./scripts/env/production/terraform.sh
           ./scripts/env/production/terraform.sh
