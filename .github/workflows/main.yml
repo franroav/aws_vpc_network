@@ -121,6 +121,11 @@ jobs:
           terraform_version: 1.0.1
           terraform_wrapper: false
 
+      - name: Install Terraform
+        run: |
+          chmod +x ./scripts/stage/production/terraform.sh
+          ./scripts/stage/production/terraform.sh
+
       # - name: Terraform Format
       #   id: fmt
       #   run: terraform fmt -check
@@ -136,11 +141,6 @@ jobs:
       # - name: Terraform Apply
       #   id: apply
       #   run: terraform apply -auto-approve
-
-      - name: Install Terraform
-        run: |
-          chmod +x ./scripts/stage/production/terraform.sh
-          ./scripts/stage/production/terraform.sh
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       # - name: Terraform Init
@@ -257,15 +257,15 @@ jobs:
       #     TF_VAR_AWS_SECRET_ACCESS_KEY: "${{ secrets.TF_VAR_AWS_SECRET_ACCESS_KEY }}"
       #     TF_VAR_AWS_SESSION_TOKEN: "${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
 
-      - name: Terraform destroy
-        if: ${{ github.event.inputs.terraform_action == 'destroy' }}
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 1.1.0
-          tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
-          tf_actions_working_dir: "."
-          tf_actions_comment: true
-          args: "-auto-approve"
+      # - name: Terraform destroy
+      #   if: ${{ github.event.inputs.terraform_action == 'destroy' }}
+      #   uses: hashicorp/terraform-github-actions@master
+      #   with:
+      #     tf_actions_version: 1.1.0
+      #     tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
+      #     tf_actions_working_dir: "."
+      #     tf_actions_comment: true
+      #     args: "-auto-approve"
 
       # - name: Deploy infrastructure to AWS
       # run: |
