@@ -104,7 +104,6 @@ terraform destroy \
   -var "TF_VAR_ENABLE_DNS_SUPPORT=$TF_VAR_ENABLE_DNS_SUPPORT" \
   -var "TF_VAR_TERRAFORM=$TF_VAR_TERRAFORM"
 
-
 # Plan Terraform changes
 # terraform plan \
 #   -var "TF_VAR_NAME=$TF_VAR_NAME" \
