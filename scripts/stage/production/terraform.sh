@@ -3,24 +3,24 @@ set -e
 # source ../../.env
 
 # Set environment variables
-export TF_VAR_NAME="terraform-vpc"
-export TF_VAR_ENV="production"
-export TF_VAR_VPC_CIDR="10.0.0.0/16"
-export TF_VAR_PUBLIC_SUBNETS_CIDR='["10.0.0.0/20", "10.0.16.0/20"]'
-export TF_VAR_PRIVATE_SUBNETS_CIDR='["10.0.32.0/24", "10.0.33.0/24"]'
-export TF_VAR_AVAILABILITY_ZONES='["us-east-1a", "us-east-1b"]'
-export TF_VAR_EC2_AMI="ami-011899242bb902164"
-export TF_VAR_EC2_INSTANCE_TYPE="t2.nano"
-export TF_VAR_AWS_ACCESS_KEY_ID="ASIA5NAGIDAVGP6GISNE"
-export TF_VAR_AWS_SECRET_ACCESS_KEY="kRTHmqslh+qoWV6j3HgndSBJGKdBk6hOWeQo0dPF"
-export TF_VAR_AWS_SESSION_TOKEN="IQoJb3JpZ2luX2VjECYaCXVzLWVhc3QtMSJIMEYCIQDXUijXcNYOiISEQe9S29XQv+m2jTdbemIrolIkyer2OQIhAIuAPEkXZu+1O4CH+vSjb+ojyeYrAlmjFZC0ZwwPqQaiKvQBCO///////////wEQABoMOTIxMjgzNTk4Mzc4Igx1IfvGReugqPtKMCMqyAHkEnp6i6x/5eaK8zGopasP30Uirg3kr42w2Pk/wZYZS1Sq734gBJK3XNa5BeyD0zWWfZhFcpmhRuKBHjRWhNWIj8dr8GLvpYt8Cu+8bzN8u2c17hmFDfVna9uT75tRWCfuqGfomkcqvJn8N731bZ1EgynhlzJZ57mLldVGvtl6vQByjW+hGSqGdJchlDLhtX2OTJktx2rsOpvElqKaHVZ1FA0qv4vQxbje3dYMOjpzfKbEl3b5LTBr7xLM8UcCcBPtBnDfn8LOXDDJs5OuBjqXAR/lMsauD+FGIRrNtBXhHGhk7XrScv0IudwqO7pXkrSE09RJHjRS5lSuojvFWqc/9KOGgN6n0V3NwbHaFWF+PruPZdyXLk4Z0PUkvdjKYq8WK8eP52+bRh421fYGvknA1Hc0/4pBg2IyS99XAQZxfOxG2QfOVh44fK+/956B7OrM4GqioCHuOBpFEusnA+MBZRKXC0a3yws="
-export TF_VAR_AWS_ACCOUNT_ID="921283598378"
-export TF_VAR_AWS_REGION="us-east-1"
-export TF_VAR_AWS_PROFILE="system-admin"
-export TF_VAR_ENABLE_VPN_GATEWAY="true"
-export TF_VAR_ENABLE_DNS_HOSTNAMES="true"
-export TF_VAR_ENABLE_DNS_SUPPORT="true"
-export TF_VAR_TERRAFORM="true"
+export TF_VAR_NAME=".........."
+export TF_VAR_ENV=".........."
+export TF_VAR_VPC_CIDR=".........."
+export TF_VAR_PUBLIC_SUBNETS_CIDR=".........."
+export TF_VAR_PRIVATE_SUBNETS_CIDR=".........."
+export TF_VAR_AVAILABILITY_ZONES=".........."
+export TF_VAR_EC2_AMI=".........."
+export TF_VAR_EC2_INSTANCE_TYPE=".........."
+export TF_VAR_AWS_ACCESS_KEY_ID=".........."
+export TF_VAR_AWS_SECRET_ACCESS_KEY=".........."
+export TF_VAR_AWS_SESSION_TOKEN=".........."
+export TF_VAR_AWS_ACCOUNT_ID=".........."
+export TF_VAR_AWS_REGION=".........."
+export TF_VAR_AWS_PROFILE=".........."
+export TF_VAR_ENABLE_VPN_GATEWAY=".........."
+export TF_VAR_ENABLE_DNS_HOSTNAMES=".........."
+export TF_VAR_ENABLE_DNS_SUPPORT=".........."
+export TF_VAR_TERRAFORM=".........."
 
 # Install necessary dependencies
 sudo apt-get update
