@@ -2,7 +2,12 @@
 set -e
 # source ../../.env
 
-# Set environment variables
+#************** ENVIROMENT *****************#
+#-------------------------------------------#
+
+# Set environment variables for the module 
+
+# VPC MODULE 
 export TF_VAR_NAME=".........."
 export TF_VAR_ENV=".........."
 export TF_VAR_VPC_CIDR=".........."
@@ -21,6 +26,12 @@ export TF_VAR_ENABLE_VPN_GATEWAY=".........."
 export TF_VAR_ENABLE_DNS_HOSTNAMES=".........."
 export TF_VAR_ENABLE_DNS_SUPPORT=".........."
 export TF_VAR_TERRAFORM=".........."
+
+# MULTI THIER MODULE 
+
+
+
+
 
 # Install necessary dependencies
 sudo apt-get update

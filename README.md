@@ -34,15 +34,16 @@ Follow these steps to initialize and deploy the infrastructure:
 ### Directory Structure
 
 - .
-- ├── main.tf
+- ├── modules.tf
 - ├── modules
 - │   └── [Your Modules]
-- ├── production.tf
 - ├── README.md
 - ├── terraform.tfstate
 - ├── terraform.tfstate.backup
 - ├── terraform.tfvars
 - └── variables.tf
+- └── data.tf
+- └── locals.tf
 
 ### Terraform Commands
 - **terraform init**: Initialization resources.

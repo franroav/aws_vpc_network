@@ -159,6 +159,7 @@ resource "aws_instance" "public_instances" {
   ami           = var.TF_VAR_EC2_AMI # Ubuntu 20.04 LTS // us-east-1
   instance_type = var.TF_VAR_EC2_INSTANCE_TYPE
   subnet_id     = element(aws_subnet.public_subnet.*.id, count.index)
+  security_groups = [aws_security_group.default.id]
   #   key_name      = var.TF_VAR_KEY_PAIR_NAMES["Public-Instance-${count.index}"]   # Use the dynamic key pair
   key_name = "TF_key"
   tags = {
@@ -176,6 +177,7 @@ resource "aws_instance" "private_instances" {
   ami           = var.TF_VAR_EC2_AMI # Ubuntu 20.04 LTS // us-east-1
   instance_type = var.TF_VAR_EC2_INSTANCE_TYPE
   subnet_id     = element(aws_subnet.private_subnet.*.id, count.index)
+  security_groups = [aws_security_group.default.id]
   #   key_name      = var.TF_VAR_KEY_PAIR_NAMES["Private-Instance-${count.index}"]   # Use the dynamic key pair
   key_name = "TF_key"
   tags = {

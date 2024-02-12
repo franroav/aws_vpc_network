@@ -2,7 +2,7 @@ name: Cloud Network
 
 on:
   push:
-    branches: [master]
+    branches: []
 
 env:
   AWS_ACCOUNT_NUMBER: ${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}
@@ -112,8 +112,8 @@ jobs:
           export TF_VAR_AWS_SESSION_TOKEN="${{ secrets.TF_VAR_AWS_SESSION_TOKEN }}"
           # Add other variables as needed
 
-      - name: Print Current Directory
-        run: pwd
+      # - name: Print Current Directory
+      #   run: pwd
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
