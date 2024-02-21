@@ -1,5 +1,11 @@
 # AWS VPC NETWORK 🌟
 
+# Network Mode Options:
+
+1. **bridge**: The task uses the Docker bridge network.
+2. **host**: The task uses the host network stack on the host.
+3. **awsvpc**: The task is launched into your VPC, allowing you to use AWS VPC 
+
 ## Multi-tier Architecture Overview
 
 The network layout described in the resources.tf file represents a typical multi-tier architecture for cloud-based applications. This architecture segregates components into different layers based on their functions and security requirements. 
