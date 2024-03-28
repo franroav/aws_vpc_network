@@ -21,7 +21,7 @@ export TF_VAR_ENABLE_DNS_HOSTNAMES=true
 export TF_VAR_ENABLE_DNS_SUPPORT=true
 export TF_VAR_TERRAFORM=true
 
-# Install necessary dependencies.
+# Install necessary dependencies..
 sudo apt-get update
 sudo apt-get install -y curl unzip
 
