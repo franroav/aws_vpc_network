@@ -24,6 +24,7 @@ variable "TF_VAR_VPC_CIDR" {
   description = "vpc cidr"
   type        = string
   sensitive   = true
+  default = "10.0.0.0/16"
 }
 
 variable "TF_VAR_PUBLIC_SUBNETS_CIDR" {
