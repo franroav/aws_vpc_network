@@ -2,7 +2,7 @@ name: Cloud Network
 
 on:
   push:
-    branches: []
+    branches: [master]
 
 env:
   AWS_ACCOUNT_NUMBER: ${{ secrets.TF_VAR_AWS_ACCOUNT_ID }}
