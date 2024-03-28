@@ -1,19 +1,15 @@
 #!/bin/bash
 set -e
-# source ../../.env
 
-#************** ENVIROMENT *****************#
-#-------------------------------------------#
+# Set environment variables for the module
 
-# Set environment variables for the module 
-
-# VPC MODULE 
+# VPC MODULE
 export TF_VAR_NAME="$TF_VAR_NAME"
 export TF_VAR_ENV="$TF_VAR_ENV"
 export TF_VAR_VPC_CIDR="$TF_VAR_VPC_CIDR"
-export TF_VAR_PUBLIC_SUBNETS_CIDR="["10.0.0.0/20", "10.0.16.0/20"]"
-export TF_VAR_PRIVATE_SUBNETS_CIDR="["10.0.32.0/24", "10.0.33.0/24"]"
-export TF_VAR_AVAILABILITY_ZONES="["us-east-1a", "us-east-1b"]"
+export TF_VAR_PUBLIC_SUBNETS_CIDR="[\"10.0.0.0/20\", \"10.0.16.0/20\"]"
+export TF_VAR_PRIVATE_SUBNETS_CIDR="[\"10.0.32.0/24\", \"10.0.33.0/24\"]"
+export TF_VAR_AVAILABILITY_ZONES="[\"us-east-1a\", \"us-east-1b\"]"
 export TF_VAR_EC2_AMI="$TF_VAR_EC2_AMI"
 export TF_VAR_EC2_INSTANCE_TYPE="$TF_VAR_EC2_INSTANCE_TYPE"
 export TF_VAR_AWS_ACCESS_KEY_ID="$TF_VAR_AWS_ACCESS_KEY_ID"
@@ -26,12 +22,6 @@ export TF_VAR_ENABLE_VPN_GATEWAY="$TF_VAR_ENABLE_VPN_GATEWAY"
 export TF_VAR_ENABLE_DNS_HOSTNAMES="$TF_VAR_ENABLE_DNS_HOSTNAMES"
 export TF_VAR_ENABLE_DNS_SUPPORT="$TF_VAR_ENABLE_DNS_SUPPORT"
 export TF_VAR_TERRAFORM="$TF_VAR_TERRAFORM"
-
-# MULTI THIER MODULE 
-
-
-
-
 
 # Install necessary dependencies
 sudo apt-get update
@@ -51,13 +41,14 @@ terraform init
 # Validate Terraform configuration
 terraform validate
 
+# Plan Terraform changes
 terraform plan \
   -var "TF_VAR_NAME=$TF_VAR_NAME" \
   -var "TF_VAR_ENV=$TF_VAR_ENV" \
   -var "TF_VAR_VPC_CIDR=$TF_VAR_VPC_CIDR" \
-  -var "TF_VAR_PUBLIC_SUBNETS_CIDR=["10.0.0.0/20", "10.0.16.0/20"]" \
-  -var "TF_VAR_PRIVATE_SUBNETS_CIDR=["10.0.32.0/24", "10.0.33.0/24"]" \
-  -var "TF_VAR_AVAILABILITY_ZONES=["us-east-1a", "us-east-1b"]" \
+  -var "TF_VAR_PUBLIC_SUBNETS_CIDR=$TF_VAR_PUBLIC_SUBNETS_CIDR" \
+  -var "TF_VAR_PRIVATE_SUBNETS_CIDR=$TF_VAR_PRIVATE_SUBNETS_CIDR" \
+  -var "TF_VAR_AVAILABILITY_ZONES=$TF_VAR_AVAILABILITY_ZONES" \
   -var "TF_VAR_EC2_AMI=$TF_VAR_EC2_AMI" \
   -var "TF_VAR_EC2_INSTANCE_TYPE=$TF_VAR_EC2_INSTANCE_TYPE" \
   -var "TF_VAR_AWS_ACCESS_KEY_ID=$TF_VAR_AWS_ACCESS_KEY_ID" \
@@ -71,7 +62,7 @@ terraform plan \
   -var "TF_VAR_ENABLE_DNS_SUPPORT=$TF_VAR_ENABLE_DNS_SUPPORT" \
   -var "TF_VAR_TERRAFORM=$TF_VAR_TERRAFORM"
 
-#Apply Terraform changes with auto-approval and passing variables
+# Apply Terraform changes
 terraform apply \
   -auto-approve \
   -var "TF_VAR_NAME=$TF_VAR_NAME" \
@@ -92,6 +83,7 @@ terraform apply \
   -var "TF_VAR_ENABLE_DNS_HOSTNAMES=$TF_VAR_ENABLE_DNS_HOSTNAMES" \
   -var "TF_VAR_ENABLE_DNS_SUPPORT=$TF_VAR_ENABLE_DNS_SUPPORT" \
   -var "TF_VAR_TERRAFORM=$TF_VAR_TERRAFORM"
+
 
 #Destroy Terraform changes with auto-approval and passing variables
 terraform destroy \
