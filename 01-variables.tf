@@ -54,18 +54,21 @@ variable "TF_VAR_VPC_CIDR" {
 variable "TF_VAR_PUBLIC_SUBNETS_CIDR" {
   description = "vpc cidr"
   type        = list(string)
+  default = ["10.0.0.0/20", "10.0.16.0/20"]
   #   sensitive   = true
 }
 
 variable "TF_VAR_PRIVATE_SUBNETS_CIDR" {
   description = "vpc cidr"
   type        = list(string)
+  default = ["10.0.32.0/24", "10.0.33.0/24"]
   #   sensitive   = true
 }
 
 variable "TF_VAR_AVAILABILITY_ZONES" {
   description = "List of availability zones"
   type        = list(string)
+  default = ["us-east-1a", "us-east-1b"]
 }
 
 
